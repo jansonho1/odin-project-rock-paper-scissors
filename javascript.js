@@ -31,22 +31,20 @@ function playRound(playerSelection, computerSelection) {
 function game() {
     let player = 0;
     let computer = 0;
-    for(let i = 0; i < 5; i++) {
+    while(1) {
         let playerSelection = '';
         let computerSelection = '';
         let result = '';
-        while(1) {
-            playerSelection = prompt('Select rock, paper, or scissors: ');
-            computerSelection = getComputerChoice();
-            result = playRound(playerSelection, computerSelection);
-            console.log(result);
-            if(result.includes('Win')) {
-                player++;
-                break;
-            } else if(result.includes('Lose')) {
-                computer++;
-                break;
-            }
+        playerSelection = prompt('Select rock, paper, or scissors: ');
+        computerSelection = getComputerChoice();
+        result = playRound(playerSelection, computerSelection);
+        console.log(result);
+        if(result.includes('Win')) {
+            player++;
+            break;
+        } else if(result.includes('Lose')) {
+            computer++;
+            break;
         }
     }
     if(player > computer) {
@@ -56,4 +54,46 @@ function game() {
     }
 }
 
-console.log(game());
+let player = 0;
+let computer = 0;
+let result = "";
+
+
+const divContainer = document.querySelector('#container');
+const div = document.createElement('div');
+const playerScore = document.createElement('p');
+const computerScore = document.createElement('p');
+const message = document.createElement('p');
+playerScore.textContent = "Player score: " + player.toString();
+computerScore.textContent = "Computer score: " + computer.toString();
+message.textContent = result;
+div.appendChild(playerScore);
+div.appendChild(computerScore);
+div.appendChild(message);
+divContainer.appendChild(div);
+
+const buttons = document.querySelectorAll('button');
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        result = playRound(button.id, getComputerChoice());
+        
+        if(result.includes('Win')) {
+            player++;
+            playerScore.textContent = "Player score: " + player.toString();
+        } else if(result.includes('Lose')) {
+            computer++;
+            computerScore.textContent = "Computer score: " + computer.toString();
+        }
+        if(player === 5) {
+            result = "You win the game!";
+            message.textContent = result;
+        }
+        else if(computer == 5) {
+            result = "You lose the game...";
+            message.textContent = result;
+        }
+    })
+});
+
+
+
